@@ -11,6 +11,7 @@ var load = {
 
 
 var facility = {
+name : "FordCharlie",
 coordinates : [20, 67],
 client : 1,
 isPort : 0
@@ -36,4 +37,36 @@ sequenceNr : 2,
 emissionsProduced : 0
 }
 
+var rain = {
+    coordinate1 : [],
+    coordinate2 : [],
+    coordinate3 : [],
+    coordinate4 : []
+}
 // End of objects examples
+//-----------------------------------
+
+
+// Initialise the variables:
+var client1 = {
+    name : "Frank",
+    emissionsProduced : 0
+    }
+
+var client2 = {
+    name : "Freddy",
+    emissionsProduced : 0
+    }
+
+var ship = {
+    capacity : 1500,
+    totalLoadWeight : 0,
+    currentTrip : null
+} 
+
+var facilities = []
+var loads = []
+var trips = []
+var rains = []
+
+
