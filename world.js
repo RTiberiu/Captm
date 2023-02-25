@@ -1,6 +1,7 @@
 // Global variables used in engine.js ()
 
 // Current X and Y value on the map
+let currentLocName;
 let currentX;
 let currentY;
 
@@ -27,4 +28,18 @@ export function setCurrentY(value) {
     currentY = value;
 }
 
-export {interestPoints, currentX, currentY, visitedPlaces};
+export function setCurrentLocName(value) {
+    currentLocName = value;
+}
+
+export function addVisitedPlace(place) {
+    visitedPlaces.push(place);
+}
+
+export function updateShipLocation(location, x, y) {
+    currentLocName = location;
+    currentX = x;
+    currentY = y;
+}
+
+export {interestPoints, currentX, currentY, visitedPlaces, currentLocName};
