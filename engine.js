@@ -15,6 +15,11 @@ export function choosingRouteVariation() {
         if (world.visitedPlaces.includes(interestPoint)) {
             continue;
         }
+
+        // Check the current interest point isn't blocked by a storm
+        if (world.stormBlockedLocations.includes(interestPoint)) {
+            continue;
+        }
         
         // Get interest points X and Y values
         interestPointX = world.interestPoints[interestPoint][0];
@@ -30,9 +35,28 @@ export function choosingRouteVariation() {
             shortestPointCoord = [interestPointX, interestPointY];
         }
     }
+    
+    // Check if all available locations were visited AND if there are any blockd locations
+    if (shortestInterestPoint == undefined && world.stormBlockedLocations.length > 0) {
+        // Unblock all location blocked by the storm
+        world.makeBlockedLocationsAvailable();
 
-    console.log("🚀 ~ shortestInterestPoint:", shortestInterestPoint)
-    console.log("🚀 ~ shortestDistance:", shortestDistance)
+        // Callback to resume with the newly available locations
+        console.log('Callback for UNBLOCKED!')
+        choosingRouteVariation();
+        return;
+    }
+
+    // Get travelled coordinates array 
+    let gotTravelledCoord = getTravelledCoordArr(world.currentLocName,shortestInterestPoint);
+
+    // Callback choosing different travel variation 
+    if (!gotTravelledCoord) {
+        console.log('Callback function choosing different location');
+        choosingRouteVariation();
+        return;
+    }
+
     // Update ship location and coordinates 
     world.updateShipLocation(shortestInterestPoint, shortestPointCoord[0], shortestPointCoord[1]);
 
@@ -95,18 +119,18 @@ export function addRandomStorms(numberOfStorms) {
     }
 
     let counter = 0;
-    let randomCoorArr;
+    let randomCoordArr;
     let randomIntensity;
     // Find unique location of storms and add them
     while (counter < numberOfStorms) {
         // Randomize location until one it's unique
         let searchingStormLoc = true;
         while (searchingStormLoc) {
-            randomCoorArr = getRandomCoordinatesArr(world.worldGrid[0], world.worldGrid[1]);
+            randomCoordArr = getRandomCoordinatesArr(world.worldGrid[0], world.worldGrid[1]);
 
             // Check if random coordinates are unique 
             let foundStorm = world.storms.some(item => {
-                return item[0] === randomCoorArr[0] && item[1] === randomCoorArr[1];
+                return item[0] === randomCoordArr[0] && item[1] === randomCoordArr[1];
             });
 
             // Stop searching when unique storm coordinates are found
@@ -116,11 +140,100 @@ export function addRandomStorms(numberOfStorms) {
         }
         
         // Get random intensity for the random storm
-        randomIntensity = getRandomIntensity(randomCoorArr[0], randomCoorArr[1]);
+        randomIntensity = getRandomIntensity(randomCoordArr[0], randomCoordArr[1]);
     
         // Add storm location & intensity
-        world.addStorm(randomCoorArr[0], randomCoorArr[1], randomIntensity);
+        world.addStorm(randomCoordArr[0], randomCoordArr[1], randomIntensity);
         counter++;
     } 
+}
+
+/**
+ * Get an array of travelled coordinates between two points in the 2d space.
+ * @param {*} startingPoint name of the interest point
+ * @param {*} endPoint name of the interest point
+ */
+export function getTravelledCoordArr(startingPoint, endPoint) {
+    let startPointCoord = world.interestPoints[startingPoint];
+    console.log("🚀 ~ startPointCoord:", startPointCoord, " startingPoint", startingPoint)
+    let endPointCoord = world.interestPoints[endPoint];
+    console.log("🚀 ~ endPointCoord:", endPointCoord, " endPoint", endPoint)
+
+    // Move on the Y axis
+    if (startPointCoord[1] > endPointCoord[1]) {
+        while(startPointCoord[1] > endPointCoord[1]) {
+            // Get travel coordinate storm intensity
+            let coordStormIntensity = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] - 1);
+            
+            // Validate that the storm isn't blocking the location
+            if (coordStormIntensity == 3) {
+                console.log("🚀 ~ coordStormIntensity:", coordStormIntensity)
+                console.log(startPointCoord[0], startPointCoord[1] - 1);
+                console.log("🚀 ~ endPoint:", endPoint)
+                // Temporarily block current endPoint trajectory and stop function
+                world.addStormBlockedLocation(endPoint);
+                return false;
+            } else if (coordStormIntensity > 0) {
+                // Increase fuel consumption + storm percentage
+
+            } else {
+                // Increase basic fuel consumption
+
+            }
+            
+
+            world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] - 1);
+            startPointCoord[1] -= 1;
+        }
+    } else {
+        while(startPointCoord[1] < endPointCoord[1]) {
+            console.log(getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] + 1));
+            world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] + 1);
+            startPointCoord[1] += 1;
+        }
+    }
+
+    // Move on the X axis
+    if (startPointCoord[0] > endPointCoord[0]) {
+        while(startPointCoord[1] > endPointCoord[1]) {
+            console.log(getStormIntensityByCoord(startPointCoord[0] - 1, startPointCoord[1]));
+
+            world.addTempTravelledLocation(startPointCoord[0] - 1, startPointCoord[1]);
+            startPointCoord[0] -= 1;
+        }
+    } else {
+        while(startPointCoord[0] < endPointCoord[0]) {
+            console.log(getStormIntensityByCoord(startPointCoord[0] + 1, startPointCoord[1]));
+
+            world.addTempTravelledLocation(startPointCoord[0] + 1, startPointCoord[1]);
+            startPointCoord[0] += 1;
+        }
+    }
+    
+    // Add temp travelled to actually travelled 
+    world.addTravelledLocation();
+    console.log("🚀 ~ travelledArr:", world.travelledArr)
+    return true;
+}
+
+export function getStormIntensityByCoord(x, y) {
+    let output;
+    // Find if given coordinates exist in storms arr
+    let stormIndex;
+    let foundStorm = world.storms.some(item => {
+        let isEqualToStorm = item[0] === x && item[1] === y;
+        if (isEqualToStorm) {
+            stormIndex = world.storms.indexOf(item);
+        }
+        return isEqualToStorm;
+    });
+
+    if (!foundStorm) {
+        output = 0;
+    } else {
+        output = world.stormsItensity[stormIndex];
+    }
+
+    return output;
 }
 

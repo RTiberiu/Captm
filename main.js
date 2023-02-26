@@ -21,12 +21,15 @@ engine.addRandomStorms(15);
 
 // Visit each place -- testing
 let visits = 0;
-while (visits < 7) {
+let maxVisits = 7;
+console.log("🚀 ~ world.locationsLeftToVisit:", world.locationsLeftToVisit)
+while (visits < world.locationsLeftToVisit) {
     engine.choosingRouteVariation(world.currentLocName);
+    console.log("🚀 ~ visits:", visits)
     visits++;
 }
 
-// Print storms locations
+// // Print storms locations
 console.log('Storm locations below! ----');
 console.log(world.storms);
 console.log(world.stormsItensity);

@@ -4,8 +4,9 @@
 let currentLocName;
 let currentX;
 let currentY;
-
 let worldGrid = [12, 8]; // X and Y threshold of the map 
+
+// Fuel consumption
 
 // Coordinates of each interest point in X and Y format
 let interestPoints = {
@@ -19,10 +20,17 @@ let interestPoints = {
     'oilrig5': [11, 3]
 }
 
+let locationsLeftToVisit = Object.keys(interestPoints).length - 1;
 let storms = [];
 let stormsItensity = [];
-
+let stormBlockedLocations = [];
 let visitedPlaces = [];
+
+// Travelled locations (coordinates X and Y)
+let travelledArr = [];
+
+// Temporary route locations
+let tempTravelledArr = [];
 
 // Setters 
 export function setCurrentX(value) {
@@ -58,4 +66,26 @@ export function addStorm(x, y, intensity) {
     stormsItensity.push(intensity);
 } 
 
-export {interestPoints, currentX, currentY, visitedPlaces, currentLocName, storms, worldGrid, stormsItensity};
+export function addTravelledLocation() {
+    travelledArr.push(tempTravelledArr);
+    
+    // Clear temp travelled arr
+    tempTravelledArr = [];
+}
+
+export function addTempTravelledLocation(x, y) {
+    tempTravelledArr.push(new Array(x, y));
+}
+
+export function addStormBlockedLocation(nameOfBlockedLoc) {
+    stormBlockedLocations.push(nameOfBlockedLoc);
+}
+
+export function makeBlockedLocationsAvailable() {
+    stormBlockedLocations = [];
+    stormsItensity = [];
+    storms = [];
+}
+
+
+export {interestPoints, currentX, currentY, visitedPlaces, currentLocName, storms, worldGrid, stormsItensity, travelledArr, tempTravelledArr, stormBlockedLocations, locationsLeftToVisit};
