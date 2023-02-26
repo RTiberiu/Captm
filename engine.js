@@ -160,59 +160,84 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
     console.log("🚀 ~ endPointCoord:", endPointCoord, " endPoint", endPoint)
 
     // Move on the Y axis
+    let coordStormIntensityY;
     if (startPointCoord[1] > endPointCoord[1]) {
+        // Move down the Y axis
         while(startPointCoord[1] > endPointCoord[1]) {
             // Get travel coordinate storm intensity
-            let coordStormIntensity = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] - 1);
-            
-            // Validate that the storm isn't blocking the location
-            if (coordStormIntensity == 3) {
-                console.log("🚀 ~ coordStormIntensity:", coordStormIntensity)
-                console.log(startPointCoord[0], startPointCoord[1] - 1);
-                console.log("🚀 ~ endPoint:", endPoint)
-                // Temporarily block current endPoint trajectory and stop function
-                world.addStormBlockedLocation(endPoint);
-                return false;
-            } else if (coordStormIntensity > 0) {
-                // Increase fuel consumption + storm percentage
+            coordStormIntensityY = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] - 1);
 
-            } else {
-                // Increase basic fuel consumption
+            // Validate the storm intensity for the coordinate
+            let validStormIntensity = validateCoordStormIntensity(coordStormIntensityY, endPoint);
 
+            // Early exit for not finding the right path because of heavy storm
+            if (!validStormIntensity) {
+                return validStormIntensity;
             }
             
-
+            // Add new location to temporary array
             world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] - 1);
             startPointCoord[1] -= 1;
         }
     } else {
+        // Move up Y the axis
         while(startPointCoord[1] < endPointCoord[1]) {
-            console.log(getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] + 1));
+            // Get travel coordinate storm intensity
+            coordStormIntensityY = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] + 1);
+
+            // Validate the storm intensity for the coordinate
+            let validStormIntensity = validateCoordStormIntensity(coordStormIntensityY, endPoint);
+
+            // Early exit for not finding the right path because of heavy storm
+            if (!validStormIntensity) {
+                return validStormIntensity;
+            }
+
             world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] + 1);
             startPointCoord[1] += 1;
         }
     }
 
     // Move on the X axis
+    let coordStormIntensityX;
     if (startPointCoord[0] > endPointCoord[0]) {
+        // Move down the X axis
         while(startPointCoord[1] > endPointCoord[1]) {
-            console.log(getStormIntensityByCoord(startPointCoord[0] - 1, startPointCoord[1]));
+            // Get travel coordinate storm intensity
+            coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] - 1, startPointCoord[1]);
+
+            // Validate the storm intensity for the coordinate
+            let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
+
+            // Early exit for not finding the right path because of heavy storm
+            if (!validStormIntensity) {
+                return validStormIntensity;
+            }
 
             world.addTempTravelledLocation(startPointCoord[0] - 1, startPointCoord[1]);
             startPointCoord[0] -= 1;
         }
     } else {
+        // Move up the X axis
         while(startPointCoord[0] < endPointCoord[0]) {
-            console.log(getStormIntensityByCoord(startPointCoord[0] + 1, startPointCoord[1]));
+            // Get travel coordinate storm intensity
+            coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] + 1, startPointCoord[1]);
+
+            // Validate the storm intensity for the coordinate
+            let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
+
+            // Early exit for not finding the right path because of heavy storm
+            if (!validStormIntensity) {
+                return validStormIntensity;
+            }
 
             world.addTempTravelledLocation(startPointCoord[0] + 1, startPointCoord[1]);
             startPointCoord[0] += 1;
         }
     }
     
-    // Add temp travelled to actually travelled 
+    // Add temp travelled to actually travelled locations
     world.addTravelledLocation();
-    console.log("🚀 ~ travelledArr:", world.travelledArr)
     return true;
 }
 
@@ -234,6 +259,25 @@ export function getStormIntensityByCoord(x, y) {
         output = world.stormsItensity[stormIndex];
     }
 
+    return output;
+}
+
+// Validate that the storm isn't blocking the location and act accordingly 
+export function validateCoordStormIntensity(stormIntensity, endPoint) {
+    let output = false;
+    if (stormIntensity == 3) {
+        console.log("🚀 ~ coordStormIntensity A:", stormIntensity)
+        // console.log(startPointCoord[0], startPointCoord[1] - 1);
+        console.log("🚀 ~ endPoint A:", endPoint)
+        // Temporarily block current endPoint trajectory and stop function
+        world.addStormBlockedLocation(endPoint);
+    } else if (stormIntensity > 0) {
+        // Increase fuel consumption + storm percentage
+        output = true;
+    } else {
+        // Increase basic fuel consumption
+        output = true;
+    }
     return output;
 }
 

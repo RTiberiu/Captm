@@ -21,7 +21,6 @@ engine.addRandomStorms(15);
 
 // Visit each place -- testing
 let visits = 0;
-let maxVisits = 7;
 console.log("🚀 ~ world.locationsLeftToVisit:", world.locationsLeftToVisit)
 while (visits < world.locationsLeftToVisit) {
     engine.choosingRouteVariation(world.currentLocName);
