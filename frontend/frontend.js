@@ -1,3 +1,6 @@
+gsap.registerPlugin(MotionPathPlugin);
+
+
 let interestPoints = {
     'port1': [0, 3, "Port 1"],
     'port2': [5, 8, "Port 2"],
@@ -33,6 +36,8 @@ $(document).ready(function () {
             setItemOnGrid(interestPoints[point][0], interestPoints[point][1], interestPoints[point][2]);
         }
     }
+
+    sendShipFromTo("port2", "oilrig1");
 });
 
 function startTrip() {
@@ -80,6 +85,77 @@ function setItemOnGrid(x, y, item) {
     </div>`);
 
     grid.append(newCell);
+}
+
+function getItemPositionOnGrid(x, y) {
+    // return x, y coords corresponding to that position on the grid
+    return [x * 95 / 12, y * 95 / 8];
+}
+
+// Given two interestPoints (start and end), show a box that covers the area between them
+function sendShipFromTo(start, end) {
+    const startCoords = interestPoints[start];
+    const endCoords = interestPoints[end];
+
+    const startXY = getItemPositionOnGrid(startCoords[0], startCoords[1]);
+    const endXY = getItemPositionOnGrid(endCoords[0], endCoords[1]);
+
+    // need to work out which one comes first in the x and y-axis
+    // then set the top and left to the start position
+    // then set the width and height to the difference between the two
+    const top = Math.min(startXY[1], endXY[1]);
+    const left = Math.min(startXY[0], endXY[0]);
+    const width = Math.abs(startXY[0] - endXY[0]);
+    const height = Math.abs(startXY[1] - endXY[1]);
+
+    // need to work out which way the svg needs to have the curve going. One of the following:
+    // Up and then left
+    // Up and then right
+    // Down and then left
+    // Down and then right
+    const direction = startXY[0] < endXY[0] ? "right" : "left";
+    const curve = startXY[1] < endXY[1] ? "down" : "up";
+
+    // apply this to #animation-container
+    const animationContainer = $("#animation-container");
+    animationContainer.css("top", top + "%");
+    animationContainer.css("left", left + "%");
+    animationContainer.css("width", width + "%");
+    animationContainer.css("height", height + "%");
+
+    const svgName = "./Paths/" + curve + direction + ".svg";
+
+    if (direction === "left") {
+        // flip ship horizontally
+        $("#ship").css("transform", "scaleX(-1)");
+    } else {
+        $("#ship").css("transform", "scaleX(1)");
+    }
+
+    // load the correct svg into a variable
+    $.get(svgName, function (data) {
+        // Get the path tag, ignore the rest
+        const svg = $(data).find('path');
+
+        svg.id = "path";
+
+        $("#svg-path").html(svg);
+
+        animationContainer.css("display", "block");
+
+        gsap.to("#ship", {
+            duration: 3,
+            repeat: 0,
+            yoyo: false,
+            ease: "power1.linear",
+            motionPath:{
+                path: "#path",
+                align: "#path",
+                autoRotate: true,
+                alignOrigin: [0.5, 0.5]
+            }
+        });
+    });
 }
 
 function addNewInputToForm() {
