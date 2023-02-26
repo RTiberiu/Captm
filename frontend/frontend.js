@@ -12,6 +12,18 @@ let interestPoints = {
     'oilrig5': [11, 3, "Oil Rig 5"],
 }
 
+
+var routes = [] // the routes will be saved here
+var nrOfRows = 0
+
+function addNewRow() {
+    nrOfRows++;  
+}
+
+
+
+
+
 $(document).ready(function () {
     $(".fillWithPlatforms").each(function () {
         if ($(this).hasClass("only-one")) {
@@ -133,15 +145,20 @@ function startTrip() {
             return;
         }
 
+        let distance = Math.sqrt((Math.abs(interestPoints[end][0] - interestPoints[start][0])) ** 2 + (Math.abs(interestPoints[end][1] - interestPoints[end][0])) ** 2)
+
+
         data.push({
             start: start,
             quantity: quantity,
-            end: end
+            end: end,
+            distance: distance,
+            emissions: distance * quantity * 0.5
         });
     }
 
     // todo hook this up to the calculation part
-    console.log(data);
+    console.log(JSON.stringify(data));
 }
 
 function setItemOnGrid(x, y, item) {
@@ -240,6 +257,7 @@ function addNewInputToForm() {
 
     all.append(newForm);
 }
+
 
 function drawCloud() {
     document.querySelector('.svg-wrapper svg').classList.add('active');
