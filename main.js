@@ -1,57 +1,8 @@
-import * as engine from 'engine.js'
-import * as world from 'world.js'
+import * as world from './world.js'
+import * as engine from './engine.js'
+
 
 // Main logic
-
-
-// Constructors
-function addFacility(id, name, coordinates, client, isPort) {
-    let facility = {
-        id : id,
-        name : name,
-        coordinates : coordinates,
-        client : client,
-        isPort : isPort
-        }
-    facilities.push(facility)
-}    
-
-
-function addLoad(client, weight, destinationFac, originFac) {
-    let load = {
-        client : client,
-        weight : weight,
-        destinationFac : destinationFac,
-        originFac : originFac,
-        emissionsProduced : null  // to be updated during the demonstration
-    }
-    loads.push(load)
-}
-
-function addTrip(originFac, destinationFac, load, totalLoadWeight, sequenceNr) {
-    let trip = {
-        originFac : originFac,
-        destinationFac : destinationFac,
-        load : load,
-        totalLoadWeight : totalLoadWeight,
-        sequenceNr : sequenceNr,
-        emissionsProduced : null
-    }
-    trips.push(trip)
-}
-
-function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
-    let rain = {
-        coordinate1 : coordinate1,
-        coordinate2 : coordinate2,
-        coordinate3 : coordinate3,
-        coordinate4 : coordinate4
-    }
-    rains.push(rain)
-}
-
-
-// End of Constructors
 
 // Initialise the variables:
 addFacility(1, "OrbitAlpha", [5, 3], client1, 0)
@@ -65,6 +16,23 @@ addFacility(8, "Port3", [6, 4], null, 1)
 
 
 addLoad(client1, 40, 6, 1) // example of adding load
-addTrip(6, 1, null, 0, 1)   // example of adding trip
+addLoad(client1, 60, 4, 2) // example of adding load
+addLoad(client1, 100, 1, 5) // example of adding load
+
+addTrip(6, 1, 1)   // example of adding trip
+trips[0].addLoad(loads[0])
+trips[0].addLoad(loads[1])
+trips[0].addLoad(loads[2])
+
+addRain([1,1], [1,2], [2,1], [2,2]) // example of adding rain
 
 // End of Initialise
+
+//Test :
+// console.log("trip 0 : " + JSON.stringify(trips[0]) + '/n')
+// startTrip(trips[0])
+// console.log("ship : " + JSON.stringify(ship) + '/n')
+// console.log("ship total weight : " + ship.currentTrip.totalLoadWeight)
+
+// End of test
+
