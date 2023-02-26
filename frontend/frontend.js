@@ -26,6 +26,9 @@ $(document).ready(function () {
     });
 
     setCloudOnGrid(2,2);
+
+
+
     setCloudOnGrid(3,4);
     setCloudOnGrid(5,6);
 
@@ -242,11 +245,12 @@ function drawCloud() {
 }
 
 function setCloudOnGrid(x, y) {
-    const grid = $(".map-inner");
-
+    var str = `map-weather-grid-${x}-${y}`
+    const grid = $(`${str}`);
+    grid.append(newCloud)
 
     const newCloud = $(`
-    <div class="svg-wrapper style="top: ${y * 95 / 8}%; left: ${x * 95 / 12}%; position: absolute;">
+    <div class="svg-wrapper position: absolute;">
         
     <svg fill="#000000" height="100%" width="100%" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 385.407 385.407" xml:space="preserve">
     <g>
