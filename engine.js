@@ -1,4 +1,5 @@
 import * as world from './world.js'
+import * as showcase from './showcase.js'
 
 // Functions of all the logic
 export function choosingRouteVariation() {
@@ -41,8 +42,10 @@ export function choosingRouteVariation() {
         // Unblock all location blocked by the storm
         world.makeBlockedLocationsAvailable();
 
+        // --- Showcase only ---
+        showcase.weatherImproved();
+        
         // Callback to resume with the newly available locations
-        console.log('Callback for UNBLOCKED!')
         choosingRouteVariation();
         return;
     }
@@ -52,7 +55,6 @@ export function choosingRouteVariation() {
 
     // Callback choosing different travel variation 
     if (!gotTravelledCoord) {
-        console.log('Callback function choosing different location');
         choosingRouteVariation();
         return;
     }
@@ -160,8 +162,12 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
     let endPointCoordY = endPointCoord[1];
     let startPointCoordX = startPointCoord[0];
     let endPointCoordX = endPointCoord[0];
-    console.log("🚀 ~ startPointCoord:", startPointCoord, " startingPoint", startingPoint)
-    console.log("🚀 ~ endPointCoord:", endPointCoord, " endPoint", endPoint)
+    
+    // Print showcase details
+    showcase.endPointDetails(endPointCoord, endPoint);
+
+    // Showcase coordinates, storm, and price
+    let showcaseArr = []; 
 
     // Move on the Y axis
     let coordStormIntensityY;
@@ -177,12 +183,19 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
 
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
+                // --- Showcase only --- 
+                showcase.ranIntoBlockedPath(endPoint);
+
+
                 return validStormIntensity;
             }
 
             // Add temp fuel consumption
             tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
             
+            // --- Showcase only ---
+            showcaseArr.push(new Array(startPointCoordX, startPointCoordY -1, coordStormIntensityY, getFuelConsumptionByStormIntensity(coordStormIntensityY)));
+
             // Add new location to temporary array
             world.addTempTravelledLocation(startPointCoordX, startPointCoordY - 1);
             startPointCoordY -= 1;
@@ -198,11 +211,17 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
 
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
+                // --- Showcase only --- 
+                showcase.ranIntoBlockedPath(endPoint);
+
                 return validStormIntensity;
             }
 
             // Add temp fuel consumption
             tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
+
+            // --- Showcase only ---
+            showcaseArr.push(new Array(startPointCoordX, startPointCoordY + 1, coordStormIntensityY, getFuelConsumptionByStormIntensity(coordStormIntensityY)));
 
             world.addTempTravelledLocation(startPointCoordX, startPointCoordY + 1);
             startPointCoordY += 1;
@@ -224,11 +243,17 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
+                // --- Showcase only --- 
+                showcase.ranIntoBlockedPath(endPoint);
+
                 return validStormIntensity;
             }
 
             // Add temp fuel consumption
             tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
+
+            // --- Showcase only ---
+            showcaseArr.push(new Array(startPointCoordX - 1, startPointCoordY, coordStormIntensityX, getFuelConsumptionByStormIntensity(coordStormIntensityX)));
 
             world.addTempTravelledLocation(startPointCoordX - 1, startPointCoordY);
             startPointCoordX -= 1;
@@ -244,11 +269,17 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
+                // --- Showcase only --- 
+                showcase.ranIntoBlockedPath(endPoint);
+
                 return validStormIntensity;
             }
 
             // Add temp fuel consumption
             tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
+
+            // --- Showcase only ---
+            showcaseArr.push(new Array(startPointCoordX + 1, startPointCoordY, coordStormIntensityX, getFuelConsumptionByStormIntensity(coordStormIntensityX)))
             
             world.addTempTravelledLocation(startPointCoordX + 1, startPointCoordY);
             startPointCoordX += 1;
@@ -258,18 +289,18 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
     // Get fuel consumption by storm intensity per current trip
     let totalTripFuelCost = tempFuelX + tempFuelY;
     
-    console.log("🚀 ~ tempFuelX:", tempFuelX)
-    console.log("🚀 ~ tempFuelY:", tempFuelY)
-    console.log("🚀 ~ totalTripFuelCost:", totalTripFuelCost);
-    console.log("🚀 ~ tempTravelledArr:", world.tempTravelledArr)
-
     // Increase total trip
     world.increaseTotalFuelConsumption(totalTripFuelCost);
     
     // Save current trip consumption
     world.addFuelPerStop(totalTripFuelCost);
 
-    
+    // Showcase trajectory X, Y, Intensity, Price
+    showcase.processArrayPoints(showcaseArr);
+
+    // Showcase fuel
+    showcase.showcaseFuel(totalTripFuelCost);
+
     // Add temp travelled to actually travelled locations
     world.addTravelledLocation();
     return true;
@@ -325,4 +356,5 @@ export function getFuelConsumptionByStormIntensity(stormIntensity) {
     }
     return output;
 }
+
 

@@ -15,14 +15,14 @@ let fuelBaseUnit = 5;
 
 // Coordinates of each interest point in X and Y format
 let interestPoints = {
-    'port1': [0, 3],
-    'port2': [5, 8],
-    'port3': [12, 1],
-    'oilrig1': [2, 6],
-    'oilrig2': [3, 2],
-    'oilrig3': [6, 4],
-    'oilrig4': [9, 7],
-    'oilrig5': [11, 3]
+    'Port 1': [0, 3],
+    'Port 2': [5, 8],
+    'Port 3': [12, 1],
+    'Oil rig 1': [2, 6],
+    'Oil rig 2': [3, 2],
+    'Oil rig 3': [6, 4],
+    'Oil rig 4': [9, 7],
+    'Oil rig 5': [11, 3]
 }
 
 let locationsLeftToVisit = Object.keys(interestPoints).length - 1;

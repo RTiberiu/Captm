@@ -1,10 +1,9 @@
 import * as engine from './engine.js'
 import * as world from './world.js'
-
-// Main logic
+import * as showcase from './showcase.js'
 
 // Decide starting location
-world.setCurrentLocName('port1');
+world.setCurrentLocName('Port 1');
 
 // Add start location to visited places
 world.addVisitedPlace(world.currentLocName);
@@ -15,26 +14,18 @@ world.setCurrentX(currentPoint[0]);
 world.setCurrentY(currentPoint[1]);
 
 // Add random storms to the game
-engine.addRandomStorms(15);
+engine.addRandomStorms(25);
 
-// console.log(world.storms);
-
-// Visit each place -- testing
+// Visit each available point on the map
 let visits = 0;
-console.log("🚀 ~ world.locationsLeftToVisit:", world.locationsLeftToVisit)
 while (visits < world.locationsLeftToVisit) {
+    showcase.basicDetails(visits + 1);
     engine.choosingRouteVariation(world.currentLocName);
-    console.log("🚀 ~ visits:", visits)
     visits++;
 }
 
-// // Print storms locations
-console.log('Storm locations below! ----');
-console.log(world.storms);
-console.log(world.stormsItensity);
+// --- Showcase only --- 
+showcase.showStormDetails(world.storms, world.stormsItensity);
 
-// Print total fuel consumption
-console.log(world.totalFuel);
-
-// Print fuel consumption per trip
-console.log(world.fuelPerEachStop);
+// --- Showcase only --- 
+showcase.showLastFuelDetails(world.fuelPerEachStop);
