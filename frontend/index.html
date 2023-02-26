@@ -11,11 +11,42 @@
     </nav>
 
     <div class="dashboard">
-        <div class="map">
+        <div class="routing-sidebar" id="routing-info">
+            <h2>Routing</h2>
+            <div class="routing-info-all">
+                <div class="routing-info hidden">
+                    <div class="routing-info-item">
+                        <select aria-label="Start" id="start" class="fillWithPlatforms">
+                        </select>
+
+                        <input aria-label="Quantity" type="number" id="quantity" placeholder="Quantity">
+                    </div>
+                    <div class="routing-info-icon">
+                        <i class="fa-sharp fa-solid fa-arrow-down"></i>
+                    </div>
+                    <div class="routing-info-item">
+                        <select aria-label="end" id="end" class="fillWithPlatforms only-one">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button id="add-trip">+ Add New Trip</button>
+        </div>
+
+        <div class="map-wrapper">
+            <div class="map">
+
+            </div>
+        </div>
+
+        <div class="stats-sidebar">
 
         </div>
     </div>
 
+    <script src="https://kit.fontawesome.com/779a38c6b1.js" crossorigin="anonymous"></script>
+    <script src="jquery-3.6.3.min.js"></script>
     <script src="frontend.js"></script>
 </body>
 </html>

@@ -10,10 +10,14 @@ nav {
     color: #fff;
     overflow: hidden;
     padding: 5px 10px;
-    height: 40px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.hidden {
+    display: none;
 }
 
 nav h1 {
@@ -22,10 +26,110 @@ nav h1 {
 
 .dashboard {
     display: flex;
+    flex-direction: row;
+}
+
+.routing-sidebar {
+    flex: 10%;
+    flex-grow: 1;
+    background-color: #222;
+    color: #fff;
+
+    padding: 5px 10px;
+}
+
+.routing-sidebar h2 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.map-wrapper {
+    flex: 80% 1 0;
+}
+
+.routing-info-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.routing-info-item:last-of-type {
+    margin-bottom: 0;
+}
+
+#add-trip {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#add-trip:hover {
+    background-color: #eee;
+}
+
+#add-trip:active {
+    background-color: #ddd;
+}
+
+.routing-info-item select + input {
+    width: 70px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 0 5px 5px 0;
+    -moz-appearance: textfield;
+}
+
+.routing-info-item input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    -moz-appearance: textfield;
+}
+
+.routing-info-item select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    flex-grow: 1;
+    background-color: #eee;
+    border-radius: 5px 0 0 5px;
+}
+
+.routing-info-item select.only-one {
+    border-radius: 5px;
+    width: 100%;
+}
+
+.routing-info-icon {
+    font-size: 1.2em;
+    padding: 5px 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.routing-info-item input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.routing-info {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #fff;
 }
 
 .map {
-    flex: 1;
     max-height: calc(100vh - 50px);
     max-width: 100vw;
     aspect-ratio: 1500 / 1000;
@@ -44,99 +148,99 @@ nav h1 {
     grid-row-gap: 0;
 }
 
-.div1 { grid-area: 1 / 1 / 2 / 2; }
-.div2 { grid-area: 1 / 2 / 2 / 3; }
-.div3 { grid-area: 1 / 3 / 2 / 4; }
-.div4 { grid-area: 1 / 4 / 2 / 5; }
-.div5 { grid-area: 1 / 5 / 2 / 6; }
-.div6 { grid-area: 1 / 6 / 2 / 7; }
-.div7 { grid-area: 1 / 7 / 2 / 8; }
-.div8 { grid-area: 1 / 8 / 2 / 9; }
-.div9 { grid-area: 1 / 9 / 2 / 10; }
-.div10 { grid-area: 1 / 10 / 2 / 11; }
-.div11 { grid-area: 1 / 11 / 2 / 12; }
-.div12 { grid-area: 1 / 12 / 2 / 13; }
-.div13 { grid-area: 2 / 1 / 3 / 2; }
-.div14 { grid-area: 2 / 2 / 3 / 3; }
-.div15 { grid-area: 2 / 3 / 3 / 4; }
-.div16 { grid-area: 2 / 4 / 3 / 5; }
-.div17 { grid-area: 2 / 5 / 3 / 6; }
-.div18 { grid-area: 2 / 6 / 3 / 7; }
-.div19 { grid-area: 2 / 7 / 3 / 8; }
-.div20 { grid-area: 2 / 8 / 3 / 9; }
-.div21 { grid-area: 2 / 9 / 3 / 10; }
-.div22 { grid-area: 2 / 10 / 3 / 11; }
-.div23 { grid-area: 2 / 11 / 3 / 12; }
-.div24 { grid-area: 2 / 12 / 3 / 13; }
-.div25 { grid-area: 3 / 1 / 4 / 2; }
-.div26 { grid-area: 3 / 2 / 4 / 3; }
-.div27 { grid-area: 3 / 3 / 4 / 4; }
-.div28 { grid-area: 3 / 4 / 4 / 5; }
-.div29 { grid-area: 3 / 5 / 4 / 6; }
-.div30 { grid-area: 3 / 6 / 4 / 7; }
-.div31 { grid-area: 3 / 7 / 4 / 8; }
-.div32 { grid-area: 3 / 8 / 4 / 9; }
-.div33 { grid-area: 3 / 9 / 4 / 10; }
-.div34 { grid-area: 3 / 10 / 4 / 11; }
-.div35 { grid-area: 3 / 11 / 4 / 12; }
-.div36 { grid-area: 3 / 12 / 4 / 13; }
-.div37 { grid-area: 4 / 1 / 5 / 2; }
-.div38 { grid-area: 4 / 2 / 5 / 3; }
-.div39 { grid-area: 4 / 3 / 5 / 4; }
-.div40 { grid-area: 4 / 4 / 5 / 5; }
-.div41 { grid-area: 4 / 5 / 5 / 6; }
-.div42 { grid-area: 4 / 6 / 5 / 7; }
-.div43 { grid-area: 4 / 7 / 5 / 8; }
-.div44 { grid-area: 4 / 8 / 5 / 9; }
-.div45 { grid-area: 4 / 9 / 5 / 10; }
-.div46 { grid-area: 4 / 10 / 5 / 11; }
-.div47 { grid-area: 4 / 11 / 5 / 12; }
-.div48 { grid-area: 4 / 12 / 5 / 13; }
-.div49 { grid-area: 5 / 1 / 6 / 2; }
-.div50 { grid-area: 5 / 2 / 6 / 3; }
-.div51 { grid-area: 5 / 3 / 6 / 4; }
-.div52 { grid-area: 5 / 4 / 6 / 5; }
-.div53 { grid-area: 5 / 5 / 6 / 6; }
-.div54 { grid-area: 5 / 6 / 6 / 7; }
-.div55 { grid-area: 5 / 7 / 6 / 8; }
-.div56 { grid-area: 5 / 8 / 6 / 9; }
-.div57 { grid-area: 5 / 9 / 6 / 10; }
-.div58 { grid-area: 5 / 10 / 6 / 11; }
-.div59 { grid-area: 5 / 11 / 6 / 12; }
-.div60 { grid-area: 5 / 12 / 6 / 13; }
-.div61 { grid-area: 6 / 1 / 7 / 2; }
-.div62 { grid-area: 6 / 2 / 7 / 3; }
-.div63 { grid-area: 6 / 3 / 7 / 4; }
-.div64 { grid-area: 6 / 4 / 7 / 5; }
-.div65 { grid-area: 6 / 5 / 7 / 6; }
-.div66 { grid-area: 6 / 6 / 7 / 7; }
-.div67 { grid-area: 6 / 7 / 7 / 8; }
-.div68 { grid-area: 6 / 8 / 7 / 9; }
-.div69 { grid-area: 6 / 9 / 7 / 10; }
-.div70 { grid-area: 6 / 10 / 7 / 11; }
-.div71 { grid-area: 6 / 11 / 7 / 12; }
-.div72 { grid-area: 6 / 12 / 7 / 13; }
-.div73 { grid-area: 7 / 1 / 8 / 2; }
-.div74 { grid-area: 7 / 2 / 8 / 3; }
-.div75 { grid-area: 7 / 3 / 8 / 4; }
-.div76 { grid-area: 7 / 4 / 8 / 5; }
-.div77 { grid-area: 7 / 5 / 8 / 6; }
-.div78 { grid-area: 7 / 6 / 8 / 7; }
-.div79 { grid-area: 7 / 7 / 8 / 8; }
-.div80 { grid-area: 7 / 8 / 8 / 9; }
-.div81 { grid-area: 7 / 9 / 8 / 10; }
-.div82 { grid-area: 7 / 10 / 8 / 11; }
-.div83 { grid-area: 7 / 11 / 8 / 12; }
-.div84 { grid-area: 7 / 12 / 8 / 13; }
-.div85 { grid-area: 8 / 1 / 9 / 2; }
-.div86 { grid-area: 8 / 2 / 9 / 3; }
-.div87 { grid-area: 8 / 3 / 9 / 4; }
-.div88 { grid-area: 8 / 4 / 9 / 5; }
-.div89 { grid-area: 8 / 5 / 9 / 6; }
-.div90 { grid-area: 8 / 6 / 9 / 7; }
-.div91 { grid-area: 8 / 7 / 9 / 8; }
-.div92 { grid-area: 8 / 8 / 9 / 9; }
-.div93 { grid-area: 8 / 9 / 9 / 10; }
-.div94 { grid-area: 8 / 10 / 9 / 11; }
-.div95 { grid-area: 8 / 11 / 9 / 12; }
-.div96 { grid-area: 8 / 12 / 9 / 13; }
+.map-grid-1-1 { grid-area: 1 / 1 / 2 / 2; }
+.map-grid-1-2 { grid-area: 1 / 2 / 2 / 3; }
+.map-grid-1-3 { grid-area: 1 / 3 / 2 / 4; }
+.map-grid-1-4 { grid-area: 1 / 4 / 2 / 5; }
+.map-grid-1-5 { grid-area: 1 / 5 / 2 / 6; }
+.map-grid-1-6 { grid-area: 1 / 6 / 2 / 7; }
+.map-grid-1-7 { grid-area: 1 / 7 / 2 / 8; }
+.map-grid-1-8 { grid-area: 1 / 8 / 2 / 9; }
+.map-grid-1-9 { grid-area: 1 / 9 / 2 / 10; }
+.map-grid-1-10 { grid-area: 1 / 10 / 2 / 11; }
+.map-grid-1-11 { grid-area: 1 / 11 / 2 / 12; }
+.map-grid-1-12 { grid-area: 1 / 12 / 2 / 13; }
+.map-grid-2-1 { grid-area: 2 / 1 / 3 / 2; }
+.map-grid-2-2 { grid-area: 2 / 2 / 3 / 3; }
+.map-grid-2-3 { grid-area: 2 / 3 / 3 / 4; }
+.map-grid-2-4 { grid-area: 2 / 4 / 3 / 5; }
+.map-grid-2-5 { grid-area: 2 / 5 / 3 / 6; }
+.map-grid-2-6 { grid-area: 2 / 6 / 3 / 7; }
+.map-grid-2-7 { grid-area: 2 / 7 / 3 / 8; }
+.map-grid-2-8 { grid-area: 2 / 8 / 3 / 9; }
+.map-grid-2-9 { grid-area: 2 / 9 / 3 / 10; }
+.map-grid-2-10 { grid-area: 2 / 10 / 3 / 11; }
+.map-grid-2-11 { grid-area: 2 / 11 / 3 / 12; }
+.map-grid-2-12 { grid-area: 2 / 12 / 3 / 13; }
+.map-grid-3-1 { grid-area: 3 / 1 / 4 / 2; }
+.map-grid-3-2 { grid-area: 3 / 2 / 4 / 3; }
+.map-grid-3-3 { grid-area: 3 / 3 / 4 / 4; }
+.map-grid-3-4 { grid-area: 3 / 4 / 4 / 5; }
+.map-grid-3-5 { grid-area: 3 / 5 / 4 / 6; }
+.map-grid-3-6 { grid-area: 3 / 6 / 4 / 7; }
+.map-grid-3-7 { grid-area: 3 / 7 / 4 / 8; }
+.map-grid-3-8 { grid-area: 3 / 8 / 4 / 9; }
+.map-grid-3-9 { grid-area: 3 / 9 / 4 / 10; }
+.map-grid-3-10 { grid-area: 3 / 10 / 4 / 11; }
+.map-grid-3-11 { grid-area: 3 / 11 / 4 / 12; }
+.map-grid-3-12 { grid-area: 3 / 12 / 4 / 13; }
+.map-grid-4-1 { grid-area: 4 / 1 / 5 / 2; }
+.map-grid-4-2 { grid-area: 4 / 2 / 5 / 3; }
+.map-grid-4-3 { grid-area: 4 / 3 / 5 / 4; }
+.map-grid-4-4 { grid-area: 4 / 4 / 5 / 5; }
+.map-grid-4-5 { grid-area: 4 / 5 / 5 / 6; }
+.map-grid-4-6 { grid-area: 4 / 6 / 5 / 7; }
+.map-grid-4-7 { grid-area: 4 / 7 / 5 / 8; }
+.map-grid-4-8 { grid-area: 4 / 8 / 5 / 9; }
+.map-grid-4-9 { grid-area: 4 / 9 / 5 / 10; }
+.map-grid-4-10 { grid-area: 4 / 10 / 5 / 11; }
+.map-grid-4-11 { grid-area: 4 / 11 / 5 / 12; }
+.map-grid-4-12 { grid-area: 4 / 12 / 5 / 13; }
+.map-grid-5-1 { grid-area: 5 / 1 / 6 / 2; }
+.map-grid-5-2 { grid-area: 5 / 2 / 6 / 3; }
+.map-grid-5-3 { grid-area: 5 / 3 / 6 / 4; }
+.map-grid-5-4 { grid-area: 5 / 4 / 6 / 5; }
+.map-grid-5-5 { grid-area: 5 / 5 / 6 / 6; }
+.map-grid-5-6 { grid-area: 5 / 6 / 6 / 7; }
+.map-grid-5-7 { grid-area: 5 / 7 / 6 / 8; }
+.map-grid-5-8 { grid-area: 5 / 8 / 6 / 9; }
+.map-grid-5-9 { grid-area: 5 / 9 / 6 / 10; }
+.map-grid-5-10 { grid-area: 5 / 10 / 6 / 11; }
+.map-grid-5-11 { grid-area: 5 / 11 / 6 / 12; }
+.map-grid-5-12 { grid-area: 5 / 12 / 6 / 13; }
+.map-grid-6-1 { grid-area: 6 / 1 / 7 / 2; }
+.map-grid-6-2 { grid-area: 6 / 2 / 7 / 3; }
+.map-grid-6-3 { grid-area: 6 / 3 / 7 / 4; }
+.map-grid-6-4 { grid-area: 6 / 4 / 7 / 5; }
+.map-grid-6-5 { grid-area: 6 / 5 / 7 / 6; }
+.map-grid-6-6 { grid-area: 6 / 6 / 7 / 7; }
+.map-grid-6-7 { grid-area: 6 / 7 / 7 / 8; }
+.map-grid-6-8 { grid-area: 6 / 8 / 7 / 9; }
+.map-grid-6-9 { grid-area: 6 / 9 / 7 / 10; }
+.map-grid-6-10 { grid-area: 6 / 10 / 7 / 11; }
+.map-grid-6-11 { grid-area: 6 / 11 / 7 / 12; }
+.map-grid-6-12 { grid-area: 6 / 12 / 7 / 13; }
+.map-grid-7-1 { grid-area: 7 / 1 / 8 / 2; }
+.map-grid-7-2 { grid-area: 7 / 2 / 8 / 3; }
+.map-grid-7-3 { grid-area: 7 / 3 / 8 / 4; }
+.map-grid-7-4 { grid-area: 7 / 4 / 8 / 5; }
+.map-grid-7-5 { grid-area: 7 / 5 / 8 / 6; }
+.map-grid-7-6 { grid-area: 7 / 6 / 8 / 7; }
+.map-grid-7-7 { grid-area: 7 / 7 / 8 / 8; }
+.map-grid-7-8 { grid-area: 7 / 8 / 8 / 9; }
+.map-grid-7-9 { grid-area: 7 / 9 / 8 / 10; }
+.map-grid-7-10 { grid-area: 7 / 10 / 8 / 11; }
+.map-grid-7-11 { grid-area: 7 / 11 / 8 / 12; }
+.map-grid-7-12 { grid-area: 7 / 12 / 8 / 13; }
+.map-grid-8-1 { grid-area: 8 / 1 / 9 / 2; }
+.map-grid-8-2 { grid-area: 8 / 2 / 9 / 3; }
+.map-grid-8-3 { grid-area: 8 / 3 / 9 / 4; }
+.map-grid-8-4 { grid-area: 8 / 4 / 9 / 5; }
+.map-grid-8-5 { grid-area: 8 / 5 / 9 / 6; }
+.map-grid-8-6 { grid-area: 8 / 6 / 9 / 7; }
+.map-grid-8-7 { grid-area: 8 / 7 / 9 / 8; }
+.map-grid-8-8 { grid-area: 8 / 8 / 9 / 9; }
+.map-grid-8-9 { grid-area: 8 / 9 / 9 / 10; }
+.map-grid-8-10 { grid-area: 8 / 10 / 9 / 11; }
+.map-grid-8-11 { grid-area: 8 / 11 / 9 / 12; }
+.map-grid-8-12 { grid-area: 8 / 12 / 9 / 13; }

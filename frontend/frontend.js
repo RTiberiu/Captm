@@ -8,3 +8,33 @@ let interestPoints = {
     'oilrig4': [9, 7, "Oil Rig 4"],
     'oilrig5': [11, 3, "Oil Rig 5"],
 }
+
+$(document).ready(function () {
+    $(".fillWithPlatforms").each(function () {
+        if ($(this).hasClass("only-one")) {
+            $(this).append(`<option value="none">End</option>`);
+        } else {
+            $(this).append(`<option value="none">Start</option>`);
+        }
+
+        for (let key in interestPoints) {
+            $(this).append(`<option value="${key}">${interestPoints[key][2]}</option>`);
+        }
+    });
+
+    $("#add-trip").click(addNewInputToForm);
+
+    addNewInputToForm();
+});
+
+function addNewInputToForm() {
+    const all = $(".routing-info-all");
+
+    const form = $('.routing-info.hidden');
+
+    const newForm = form.clone();
+
+    newForm.removeClass("hidden");
+
+    all.append(newForm);
+}
