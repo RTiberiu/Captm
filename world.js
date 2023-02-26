@@ -7,6 +7,11 @@ let currentY;
 let worldGrid = [12, 8]; // X and Y threshold of the map 
 
 // Fuel consumption
+let totalFuel = 0;
+let fuelPerEachStop = [];
+
+// Fuel base cost
+let fuelBaseUnit = 5;
 
 // Coordinates of each interest point in X and Y format
 let interestPoints = {
@@ -87,5 +92,13 @@ export function makeBlockedLocationsAvailable() {
     storms = [];
 }
 
+export function addFuelPerStop(fuelPerStop) {
+    fuelPerEachStop.push(fuelPerStop);
+}
 
-export {interestPoints, currentX, currentY, visitedPlaces, currentLocName, storms, worldGrid, stormsItensity, travelledArr, tempTravelledArr, stormBlockedLocations, locationsLeftToVisit};
+export function increaseTotalFuelConsumption(fuel) {
+    totalFuel += fuel;
+}
+
+
+export {interestPoints, currentX, currentY, visitedPlaces, currentLocName, storms, worldGrid, stormsItensity, travelledArr, tempTravelledArr, stormBlockedLocations, locationsLeftToVisit, totalFuel, fuelPerEachStop, fuelBaseUnit};

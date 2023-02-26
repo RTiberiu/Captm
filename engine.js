@@ -161,6 +161,7 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
 
     // Move on the Y axis
     let coordStormIntensityY;
+    let tempFuelY = 0;
     if (startPointCoord[1] > endPointCoord[1]) {
         // Move down the Y axis
         while(startPointCoord[1] > endPointCoord[1]) {
@@ -174,6 +175,9 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             if (!validStormIntensity) {
                 return validStormIntensity;
             }
+
+            // Add temp fuel consumption
+            tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
             
             // Add new location to temporary array
             world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] - 1);
@@ -193,26 +197,34 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
                 return validStormIntensity;
             }
 
+            // Add temp fuel consumption
+            tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
+
             world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] + 1);
             startPointCoord[1] += 1;
         }
     }
-
+    
+    
     // Move on the X axis
     let coordStormIntensityX;
+    let tempFuelX = 0; 
     if (startPointCoord[0] > endPointCoord[0]) {
         // Move down the X axis
-        while(startPointCoord[1] > endPointCoord[1]) {
+        while(startPointCoord[0] > endPointCoord[0]) { //  MAYBE 1 AND 1 
             // Get travel coordinate storm intensity
             coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] - 1, startPointCoord[1]);
-
+            
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
-
+            
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
                 return validStormIntensity;
             }
+
+            // Add temp fuel consumption
+            tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
 
             world.addTempTravelledLocation(startPointCoord[0] - 1, startPointCoord[1]);
             startPointCoord[0] -= 1;
@@ -222,19 +234,35 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
         while(startPointCoord[0] < endPointCoord[0]) {
             // Get travel coordinate storm intensity
             coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] + 1, startPointCoord[1]);
-
+            
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
-
+            
             // Early exit for not finding the right path because of heavy storm
             if (!validStormIntensity) {
                 return validStormIntensity;
             }
 
+            // Add temp fuel consumption
+            tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
+            
             world.addTempTravelledLocation(startPointCoord[0] + 1, startPointCoord[1]);
             startPointCoord[0] += 1;
         }
     }
+    
+    // Get fuel consumption by storm intensity per current trip
+    let totalTripFuelCost = tempFuelX + tempFuelY;
+    
+    console.log("🚀 ~ tempFuelX:", tempFuelX)
+    console.log("🚀 ~ tempFuelY:", tempFuelY)
+    console.log("🚀 ~ totalTripFuelCost:", totalTripFuelCost)
+    // Increase total trip
+    world.increaseTotalFuelConsumption(totalTripFuelCost);
+    
+    // Save current trip consumption
+    world.addFuelPerStop(totalTripFuelCost);
+
     
     // Add temp travelled to actually travelled locations
     world.addTravelledLocation();
@@ -258,7 +286,6 @@ export function getStormIntensityByCoord(x, y) {
     } else {
         output = world.stormsItensity[stormIndex];
     }
-
     return output;
 }
 
@@ -266,17 +293,29 @@ export function getStormIntensityByCoord(x, y) {
 export function validateCoordStormIntensity(stormIntensity, endPoint) {
     let output = false;
     if (stormIntensity == 3) {
-        console.log("🚀 ~ coordStormIntensity A:", stormIntensity)
-        // console.log(startPointCoord[0], startPointCoord[1] - 1);
-        console.log("🚀 ~ endPoint A:", endPoint)
         // Temporarily block current endPoint trajectory and stop function
         world.addStormBlockedLocation(endPoint);
-    } else if (stormIntensity > 0) {
-        // Increase fuel consumption + storm percentage
-        output = true;
     } else {
-        // Increase basic fuel consumption
+        // Validate coordinate
         output = true;
+    }
+    return output;
+}
+
+export function getFuelConsumptionByStormIntensity(stormIntensity) {
+    let output;
+    switch(stormIntensity) {
+        case 0:
+            output = world.fuelBaseUnit;
+            break;
+        case 1:
+            output = world.fuelBaseUnit + (world.fuelBaseUnit * 0.1);
+            break;
+        case 2:
+            output = world.fuelBaseUnit + (world.fuelBaseUnit * 0.2);
+            break;
+        default:
+            throw new Error(`The storm intensity given is not available! Value provided: ${stormIntensity}`);
     }
     return output;
 }

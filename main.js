@@ -32,3 +32,9 @@ while (visits < world.locationsLeftToVisit) {
 console.log('Storm locations below! ----');
 console.log(world.storms);
 console.log(world.stormsItensity);
+
+// Print total fuel consumption
+console.log(world.totalFuel);
+
+// Print fuel consumption per trip
+console.log(world.fuelPerEachStop);
