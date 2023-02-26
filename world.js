@@ -68,5 +68,4 @@ var loads = []
 var trips = []
 var rains = []
 
-
 export {client1, client2, ship, facilities, loads, trips, rains}

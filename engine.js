@@ -9,7 +9,7 @@ export function addFacility(id, name, coordinates, client, isPort) {
         client : client,
         isPort : isPort
         }
-    facilities.push(facility)
+    world.facilities.push(facility)
 }    
 
 
@@ -21,7 +21,7 @@ export function addLoad(client, weight, destinationFac, originFac) {
         originFac : originFac,
         emissionsProduced : null  // to be updated during the demonstration
     }
-    loads.push(load)
+    world.loads.push(load)
 }
 
 export function addTrip(originFac, destinationFac, distance, sequenceNr) {
@@ -39,7 +39,7 @@ export function addTrip(originFac, destinationFac, distance, sequenceNr) {
             this.totalLoadWeight += load.weight // update the totalLoadWeight of the trip
         }
     }
-    trips.push(trip)
+    world.trips.push(trip)
 }
 
 export function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
@@ -49,7 +49,7 @@ export function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
         coordinate3 : coordinate3,
         coordinate4 : coordinate4
     }
-    rains.push(rain)
+    world.rains.push(rain)
 }
 
 
@@ -58,6 +58,6 @@ export function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
 
 // Other functions:
 export function startTrip(trip) {
-    ship.currentTrip = null // reset the current trip
-    ship.currentTrip = JSON.parse(JSON.stringify(trip)) // assign a new trip
+    world.ship.currentTrip = null // reset the current trip
+    world.ship.currentTrip = JSON.parse(JSON.stringify(trip)) // assign a new trip
 }
