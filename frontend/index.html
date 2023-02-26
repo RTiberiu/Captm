@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CaptM | Vessel Route Planning</title>
+    <link rel="stylesheet" href="frontend.css">
+</head>
+<body>
+    <nav>
+        <h1>CaptM</h1>
+    </nav>
+
+    <div class="dashboard">
+        <div class="routing-sidebar" id="routing-info">
+            <h2>Routing</h2>
+            <div class="routing-info-all">
+                <div class="routing-info hidden">
+                    <div class="routing-info-item">
+                        <select aria-label="Start" class="start fillWithPlatforms">
+                        </select>
+
+                        <input aria-label="Quantity" type="number" class="quantity" placeholder="Quantity">
+                    </div>
+                    <div class="routing-info-icon">
+                        <i class="fa-sharp fa-solid fa-arrow-down"></i>
+                    </div>
+                    <div class="routing-info-item">
+                        <select aria-label="end" class="fillWithPlatforms end only-one">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button id="add-trip" class="trip-button">+ Add New Trip</button>
+            <button id="start-trip" class="trip-button">Simulate Trip</button>
+        </div>
+
+        <div class="map-wrapper">
+            <div class="map">
+                <div class="map-inner">
+                    <div id="animation-container">
+                        <svg id="svg-path" class="full-size" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" width="101" height="101" fill="none" style="-webkit-print-color-adjust:exact" viewBox="273 196 101 101">
+                            <path d="M274 296c0-99 99-99 99-99" id="path" class="stroke-shape" style="fill:none;stroke-width:2;stroke:currentColor;stroke-opacity:1;stroke-dasharray:12,12"/>
+                        </svg>
+                        <div id="ship"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-sidebar">
+
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/779a38c6b1.js" crossorigin="anonymous"></script>
+    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
+    <script src="frontend.js"></script>
+</body>
+</html>
