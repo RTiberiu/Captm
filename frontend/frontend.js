@@ -37,7 +37,7 @@ $(document).ready(function () {
         }
     }
 
-    sendShipFromTo("port2", "oilrig5");
+    //sendShipFromTo("port2", "oilrig5");
 });
 
 function setShipCargo(cargoCount) {
@@ -51,6 +51,54 @@ function setShipCargo(cargoCount) {
         cargo.append(`<div></div>`);
     }
 
+}
+
+let lastSidebarStats = null;
+
+function setSidebarStats(data) {
+    let {total, clientData, trip} = data;
+
+    // count up to new total over time
+    gsap.to("#total-emissions-count", {
+        duration: 3,
+        value: total,
+        onUpdate: function () {
+            $("#total-emissions-count").html(Math.floor(this.target.value));
+        },
+    });
+
+    for (let i = 0; i < clientData.length; i++) {
+        const client = clientData[i];
+
+        // check if element already exists
+        if ($(`#client-${i}`).length === 0) {
+            $("#stats-client-values").append(`<div class="stats-client-value" id="client-${i}">
+                <p class="stats-sidebar-header">Client Value 1</p>
+                <p class="stats-sidebar-value"><span class="value1"></span></p>
+                <p class="stats-sidebar-header">Client Value 2</p>
+                <p class="stats-sidebar-value"><span class="value2"></span></p>
+            </div>`);
+        }
+
+        // count up to new total over time
+        gsap.to(`#client-${i}>.value1`, {
+            duration: 3,
+            value: client[0],
+            onUpdate: function () {
+                $(`#client-${i}>.value1`).html(Math.floor(this.target.value));
+            },
+        });
+
+        gsap.to(`#client-${i}>.value2`, {
+            duration: 3,
+            value: client[1],
+            onUpdate: function () {
+                $(`#client-${i}>.value1`).html(Math.floor(this.target.value));
+            },
+        });
+    }
+
+    $("#current-trip").text(trip);
 }
 
 function startTrip() {
@@ -106,7 +154,7 @@ function getItemPositionOnGrid(x, y) {
 }
 
 // Given two interestPoints (start and end), show a box that covers the area between them
-function sendShipFromTo(start, end) {
+function sendShipFromTo(start, end, sidebarStats) {
     const startCoords = interestPoints[start];
     const endCoords = interestPoints[end];
 
@@ -168,6 +216,8 @@ function sendShipFromTo(start, end) {
                 alignOrigin: [0.5, 0.5]
             }
         });
+
+        sidebarStats && setSidebarStats(sidebarStats);
     });
 }
 
