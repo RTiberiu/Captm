@@ -5,6 +5,8 @@ let currentLocName;
 let currentX;
 let currentY;
 
+let worldGrid = [12, 8]; // X and Y threshold of the map 
+
 // Coordinates of each interest point in X and Y format
 let interestPoints = {
     'port1': [0, 3],
@@ -16,6 +18,9 @@ let interestPoints = {
     'oilrig4': [9, 7],
     'oilrig5': [11, 3]
 }
+
+let storms = [];
+let stormsItensity = [];
 
 let visitedPlaces = [];
 
@@ -42,4 +47,15 @@ export function updateShipLocation(location, x, y) {
     currentY = y;
 }
 
-export {interestPoints, currentX, currentY, visitedPlaces, currentLocName};
+/**
+ * Add storm coordinates to game
+ * @param {Integer} x 
+ * @param {Integer} y 
+ * @param {Integer} intensity between 0 and 3; 3 locks off an area.
+ */
+export function addStorm(x, y, intensity) {
+    storms.push(new Array(x, y));
+    stormsItensity.push(intensity);
+} 
+
+export {interestPoints, currentX, currentY, visitedPlaces, currentLocName, storms, worldGrid, stormsItensity};
