@@ -155,18 +155,22 @@ export function addRandomStorms(numberOfStorms) {
  */
 export function getTravelledCoordArr(startingPoint, endPoint) {
     let startPointCoord = world.interestPoints[startingPoint];
-    console.log("🚀 ~ startPointCoord:", startPointCoord, " startingPoint", startingPoint)
     let endPointCoord = world.interestPoints[endPoint];
+    let startPointCoordY = startPointCoord[1];
+    let endPointCoordY = endPointCoord[1];
+    let startPointCoordX = startPointCoord[0];
+    let endPointCoordX = endPointCoord[0];
+    console.log("🚀 ~ startPointCoord:", startPointCoord, " startingPoint", startingPoint)
     console.log("🚀 ~ endPointCoord:", endPointCoord, " endPoint", endPoint)
 
     // Move on the Y axis
     let coordStormIntensityY;
     let tempFuelY = 0;
-    if (startPointCoord[1] > endPointCoord[1]) {
+    if (startPointCoordY > endPointCoordY) {
         // Move down the Y axis
-        while(startPointCoord[1] > endPointCoord[1]) {
+        while(startPointCoordY > endPointCoordY) {
             // Get travel coordinate storm intensity
-            coordStormIntensityY = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] - 1);
+            coordStormIntensityY = getStormIntensityByCoord(startPointCoordX, startPointCoordY - 1);
 
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityY, endPoint);
@@ -180,14 +184,14 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
             
             // Add new location to temporary array
-            world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] - 1);
-            startPointCoord[1] -= 1;
+            world.addTempTravelledLocation(startPointCoordX, startPointCoordY - 1);
+            startPointCoordY -= 1;
         }
     } else {
         // Move up Y the axis
-        while(startPointCoord[1] < endPointCoord[1]) {
+        while(startPointCoordY < endPointCoordY) {
             // Get travel coordinate storm intensity
-            coordStormIntensityY = getStormIntensityByCoord(startPointCoord[0], startPointCoord[1] + 1);
+            coordStormIntensityY = getStormIntensityByCoord(startPointCoordX, startPointCoordY + 1);
 
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityY, endPoint);
@@ -200,8 +204,8 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             // Add temp fuel consumption
             tempFuelY += getFuelConsumptionByStormIntensity(coordStormIntensityY);
 
-            world.addTempTravelledLocation(startPointCoord[0], startPointCoord[1] + 1);
-            startPointCoord[1] += 1;
+            world.addTempTravelledLocation(startPointCoordX, startPointCoordY + 1);
+            startPointCoordY += 1;
         }
     }
     
@@ -209,11 +213,11 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
     // Move on the X axis
     let coordStormIntensityX;
     let tempFuelX = 0; 
-    if (startPointCoord[0] > endPointCoord[0]) {
+    if (startPointCoordX > endPointCoordX) {
         // Move down the X axis
-        while(startPointCoord[0] > endPointCoord[0]) { //  MAYBE 1 AND 1 
+        while(startPointCoordX > endPointCoordX) { 
             // Get travel coordinate storm intensity
-            coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] - 1, startPointCoord[1]);
+            coordStormIntensityX = getStormIntensityByCoord(startPointCoordX - 1, startPointCoordY);
             
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
@@ -226,14 +230,14 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             // Add temp fuel consumption
             tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
 
-            world.addTempTravelledLocation(startPointCoord[0] - 1, startPointCoord[1]);
-            startPointCoord[0] -= 1;
+            world.addTempTravelledLocation(startPointCoordX - 1, startPointCoordY);
+            startPointCoordX -= 1;
         }
     } else {
         // Move up the X axis
-        while(startPointCoord[0] < endPointCoord[0]) {
+        while(startPointCoordX < endPointCoordX) {
             // Get travel coordinate storm intensity
-            coordStormIntensityX = getStormIntensityByCoord(startPointCoord[0] + 1, startPointCoord[1]);
+            coordStormIntensityX = getStormIntensityByCoord(startPointCoordX + 1, startPointCoordY);
             
             // Validate the storm intensity for the coordinate
             let validStormIntensity = validateCoordStormIntensity(coordStormIntensityX, endPoint);
@@ -246,8 +250,8 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
             // Add temp fuel consumption
             tempFuelX += getFuelConsumptionByStormIntensity(coordStormIntensityX);
             
-            world.addTempTravelledLocation(startPointCoord[0] + 1, startPointCoord[1]);
-            startPointCoord[0] += 1;
+            world.addTempTravelledLocation(startPointCoordX + 1, startPointCoordY);
+            startPointCoordX += 1;
         }
     }
     
@@ -256,7 +260,9 @@ export function getTravelledCoordArr(startingPoint, endPoint) {
     
     console.log("🚀 ~ tempFuelX:", tempFuelX)
     console.log("🚀 ~ tempFuelY:", tempFuelY)
-    console.log("🚀 ~ totalTripFuelCost:", totalTripFuelCost)
+    console.log("🚀 ~ totalTripFuelCost:", totalTripFuelCost);
+    console.log("🚀 ~ tempTravelledArr:", world.tempTravelledArr)
+
     // Increase total trip
     world.increaseTotalFuelConsumption(totalTripFuelCost);
     
