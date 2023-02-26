@@ -47,6 +47,18 @@
 
 
 // Initialise the variables:
+
+var loadNr = 0;
+var tripNr = 0;
+
+export function incrementLoadNr() {
+    loadNr++;
+}
+
+export function incrementTripNr() {
+    tripNr++;
+}
+
 var client1 = {
     'name' : "Frank",
     'emissionsProduced' : 0

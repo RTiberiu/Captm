@@ -32,7 +32,7 @@ engine.addLoad(world.client1, 30, 4, 5) // example of adding load
 // console.log(x.coordinates, y.coordinates)
 // })
 
-engine.exportLoads();
+//console.log(engine.exportLoads());    -- display all the loads to transport
 
 //const found = array1.find(element => element > 10);
 
