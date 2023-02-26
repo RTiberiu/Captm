@@ -67,7 +67,7 @@ var loads = []
 var trips = []
 var rains = []
 
-export {client1, client2, ship, facilities, loads, trips, rains}
+export {client1, client2, ship, facilities, loads, trips, rains, loadNr, tripNr}
 
 // Current X and Y value on the map
 let currentLocName;

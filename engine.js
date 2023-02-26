@@ -15,6 +15,7 @@ export function addFacility(id, name, coordinates, client, isPort) {
 
 export function addLoad(client, weight, destinationFac, originFac) {
     let load = {
+        id : (JSON.parse(JSON.stringify(world.loadNr + 1))),
         client : client,
         weight : weight,
         destinationFac : destinationFac,
@@ -22,10 +23,24 @@ export function addLoad(client, weight, destinationFac, originFac) {
         emissionsProduced : null  // to be updated during the demonstration
     }
     world.loads.push(load)
+    world.incrementLoadNr()
+}
+
+export function exportLoads() {
+    let loadsArray = []
+    world.loads.forEach((load)=> {
+        let x = world.facilities.find(f => f.id === load.originFac);
+        let y = world.facilities.find(f => f.id === load.destinationFac); 
+    loadsArray.push([load.id, x.coordinates, y.coordinates, load.weight])
+    })
+
+    //loadsArray.forEach((e)=> {console.log(e)})
+    return loadsArray;
 }
 
 export function addTrip(originFac, destinationFac, distance, sequenceNr) {
     let trip = {
+        id : (JSON.parse(JSON.stringify(world.tripNr + 1))),
         originFac : originFac,
         destinationFac : destinationFac,
         distance : distance,
@@ -40,6 +55,7 @@ export function addTrip(originFac, destinationFac, distance, sequenceNr) {
         }
     }
     world.trips.push(trip)
+    world.incrementTripNr();
 }
 
 export function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
@@ -51,6 +67,7 @@ export function addRain(coordinate1, coordinate2, coordinate3, coordinate4) {
     }
     world.rains.push(rain)
 }
+
 
 
 // End of Constructors

@@ -7,19 +7,35 @@ console.log(world.client1)
 // Main logic
 
 // Initialise the variables:
-engine.addFacility(1, "OrbitAlpha", [5, 3], world.client1, 0)
-engine.addFacility(2, "OrbitBravo", [1, 4], world.client1, 0)
-engine.addFacility(3, "OrbitCharlie", [2, 6], world.client1, 0)
-engine.addFacility(4, "LeoAlpha", [3, 3], world.client2, 0)
-engine.addFacility(5, "LeoDelta", [3, 5], world.client2, 0)
-engine.addFacility(6, "Port1", [6, 6], null, 1)
-engine.addFacility(7, "Port2", [1, 1], null, 1)
-engine.addFacility(8, "Port3", [6, 4], null, 1)
+engine.addFacility(1, "Orbit Alpha", [2, 6], world.client1, 0)
+engine.addFacility(2, "OrbitBravo", [3, 2], world.client1, 0)
+engine.addFacility(3, "OrbitCharlie", [6, 4], world.client1, 0)
+engine.addFacility(4, "LeoAlpha", [9, 3], world.client2, 0)
+engine.addFacility(5, "LeoDelta", [11, 7], world.client2, 0)
+engine.addFacility(6, "Port1", [0, 3], null, 1)
+engine.addFacility(7, "Port2", [5, 8], null, 1)
+engine.addFacility(8, "Port3", [12, 1], null, 1)
 
 
 engine.addLoad(world.client1, 40, 6, 1) // example of adding load
 engine.addLoad(world.client1, 60, 4, 2) // example of adding load
-engine.addLoad(world.client1, 100, 1, 5) // example of adding load
+engine.addLoad(world.client1, 30, 3, 5) // example of adding load
+engine.addLoad(world.client1, 20, 2, 6) // example of adding load
+engine.addLoad(world.client1, 10, 4, 2) // example of adding load
+engine.addLoad(world.client1, 30, 4, 5) // example of adding load
+
+
+ 
+// world.loads.forEach((load)=> {
+//     let x = world.facilities.find(f => f.id === load.originFac);
+//     let y = world.facilities.find(f => f.id === load.destinationFac); 
+// console.log(x.coordinates, y.coordinates)
+// })
+
+engine.exportLoads();
+
+//const found = array1.find(element => element > 10);
+
 
 engine.addTrip(6, 1, 1)   // example of adding trip
 world.trips[0].addLoad(world.loads[0])
