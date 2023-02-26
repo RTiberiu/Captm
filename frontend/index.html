@@ -16,27 +16,28 @@
             <div class="routing-info-all">
                 <div class="routing-info hidden">
                     <div class="routing-info-item">
-                        <select aria-label="Start" id="start" class="fillWithPlatforms">
+                        <select aria-label="Start" class="start fillWithPlatforms">
                         </select>
 
-                        <input aria-label="Quantity" type="number" id="quantity" placeholder="Quantity">
+                        <input aria-label="Quantity" type="number" class="quantity" placeholder="Quantity">
                     </div>
                     <div class="routing-info-icon">
                         <i class="fa-sharp fa-solid fa-arrow-down"></i>
                     </div>
                     <div class="routing-info-item">
-                        <select aria-label="end" id="end" class="fillWithPlatforms only-one">
+                        <select aria-label="end" class="fillWithPlatforms end only-one">
                         </select>
                     </div>
                 </div>
             </div>
 
-            <button id="add-trip">+ Add New Trip</button>
+            <button id="add-trip" class="trip-button">+ Add New Trip</button>
+            <button id="start-trip" class="trip-button">Simulate Trip</button>
         </div>
 
         <div class="map-wrapper">
             <div class="map">
-
+                <div class="map-inner"></div>
             </div>
         </div>
 

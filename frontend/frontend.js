@@ -25,7 +25,62 @@ $(document).ready(function () {
     $("#add-trip").click(addNewInputToForm);
 
     addNewInputToForm();
+
+    $("#start-trip").click(startTrip);
+
+    for (let point in interestPoints) {
+        if (Object.hasOwn(interestPoints, point)) {
+            setItemOnGrid(interestPoints[point][0], interestPoints[point][1], interestPoints[point][2]);
+        }
+    }
 });
+
+function startTrip() {
+    const all = $(".routing-info-all");
+
+    const allForms = all.find(".routing-info:not(.hidden)");
+
+    let data = [];
+
+    for (let i = 0; i < allForms.length; i++) {
+        const form = allForms.eq(i);
+
+        const start = form.find(".start").val();
+        const end = form.find(".end").val();
+        const quantity = parseInt(form.find(".quantity").val());
+
+        if (start === "none" || end === "none" || quantity === 0) {
+            alert("Please fill out all fields");
+            return;
+        }
+
+        if (quantity % 10 !== 0) {
+            alert("Quantity must be a multiple of 10");
+            return;
+        }
+
+        data.push({
+            start: start,
+            quantity: quantity,
+            end: end
+        });
+    }
+
+    // todo hook this up to the calculation part
+    console.log(data);
+}
+
+function setItemOnGrid(x, y, item) {
+    const grid = $(".map-inner");
+
+    // grid starts from bottom left (0, 0) to top right (12, 8)
+    // position item absolutely and set the top and left to the correct position using percentage
+    const newCell = $(`<div class="map-cell ${item.toLowerCase().replaceAll(" ", "-")}" style="top: ${y * 95 / 8}%; left: ${x * 95 / 12}%;">
+         ${item.includes("Port") ? `<img src="Port.png" alt="Port" />` : `<img src="Rig.png" alt="Rig" />` }
+    </div>`);
+
+    grid.append(newCell);
+}
 
 function addNewInputToForm() {
     const all = $(".routing-info-all");
