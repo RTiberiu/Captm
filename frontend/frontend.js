@@ -37,8 +37,21 @@ $(document).ready(function () {
         }
     }
 
-    sendShipFromTo("port2", "oilrig1");
+    sendShipFromTo("port2", "oilrig5");
 });
+
+function setShipCargo(cargoCount) {
+    const cargo = $("#ship-cargo");
+
+    // clear the cargo
+    cargo.html("");
+
+    // add 1 div per cargoCount
+    for (let i = 0; i < cargoCount; i++) {
+        cargo.append(`<div></div>`);
+    }
+
+}
 
 function startTrip() {
     const all = $(".routing-info-all");
